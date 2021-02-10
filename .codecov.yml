@@ -17,3 +17,5 @@ coverage:
 ignore:
   - "denvol/tests/"
   - "denvol/_version.py"
+  - "denvol/__init__.py"
+  - "denvol/cli/"
