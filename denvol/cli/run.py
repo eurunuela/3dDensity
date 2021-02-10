@@ -28,11 +28,12 @@ def _get_parser():
                           type=str,
                           help='The name of the file to calculate densities on.',
                           required=True)
-    required.add_argument('-m', '--mask',
+    optional.add_argument('-m', '--mask',
                           dest='input_mask',
                           type=str,
-                          help='The filename of the mask to apply on <input>.',
-                          required=True)
+                          help='The filename of the mask to apply on <input>. '
+                               'Default is None (nilearn automatically creates the mask).',
+                          default=None)
     optional.add_argument('-n', '--nbins',
                           dest='n_bins',
                           type=int,

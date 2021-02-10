@@ -17,7 +17,7 @@ from . import __version__
 
 LGR = logging.getLogger(__name__)
 
-def denvol(input_file, input_mask, n_bins='50', out_name='density_volume', in_dir=',',
+def denvol(input_file, input_mask=None, n_bins=50, out_name='density_volume', in_dir=',',
            out_dir='.', history=False, debug=False, quiet=False):
 
     # Save call for file history
@@ -33,11 +33,6 @@ def denvol(input_file, input_mask, n_bins='50', out_name='density_volume', in_di
     out_dir = os.path.abspath(out_dir)
     os.makedirs(out_dir, exist_ok=True)
     out_name = os.path.join(out_dir, out_name)
-
-    # Save absolute path to input files
-    in_dir = os.path.abspath(in_dir)
-    input_file = os.path.join(in_dir, input_file)
-    input_mask = os.path.join(in_dir, input_mask)
 
     # Create logfile name
     basename = 'denvol_'
@@ -68,6 +63,16 @@ def denvol(input_file, input_mask, n_bins='50', out_name='density_volume', in_di
     version_number = _version.get_versions()['version']
     LGR.info(f'Currently running phys2bids version {version_number}.')
     LGR.info(f'Input file is {input_file}.')
+
+    # Save absolute path to input files
+    in_dir = os.path.abspath(in_dir)
+    input_file = os.path.join(in_dir, input_file)
+
+    # Compute mask if it does not exist
+    if input_mask is None:
+        input_mask = masking.compute_epi_mask(input_file)
+    else:
+        input_mask = os.path.join(in_dir, input_mask)
 
     # Read data
     data_masked = masking.apply_mask(input_file, input_mask)
