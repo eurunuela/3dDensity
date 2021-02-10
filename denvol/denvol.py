@@ -1,3 +1,4 @@
+"""Main workflow of denvol."""
 import datetime
 import getpass
 import logging
@@ -13,13 +14,33 @@ from tqdm import tqdm
 from denvol import _version
 from denvol.cli.run import _get_parser
 
-from . import __version__
-
 LGR = logging.getLogger(__name__)
 
 def denvol(input_file, input_mask=None, n_bins=50, out_name='density_volume', in_dir=',',
            out_dir='.', history=False, debug=False, quiet=False):
+    """Main workflow of denvol.
 
+    Parameters
+    ----------
+    input_file : [type]
+        [description]
+    input_mask : [type], optional
+        [description], by default None
+    n_bins : int, optional
+        [description], by default 50
+    out_name : str, optional
+        [description], by default 'density_volume'
+    in_dir : str, optional
+        [description], by default ','
+    out_dir : str, optional
+        [description], by default '.'
+    history : bool, optional
+        [description], by default False
+    debug : bool, optional
+        [description], by default False
+    quiet : bool, optional
+        [description], by default False
+    """
     # Save call for file history
     arg_str = ' '.join(sys.argv[1:])
     history_str = '[{username}@{hostname}: {date}] denvol {arguments}'.format(
