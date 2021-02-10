@@ -61,3 +61,10 @@ optional arguments:
   -quiet, --quiet       Only print warnings to log file. Default is False.
   -v, --version         show program's version number and exit
 ```
+
+## Requirements
+
+- matplotlib
+- nilearn
+- numpy
+- tqdm
