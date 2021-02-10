@@ -1,42 +1,18 @@
 from os.path import join, split
-import requests
-import tarfile
+import nibabel as nib
+from nilearn.image import new_img_like
 import os
-from io import BytesIO
-from gzip import GzipFile
 from denvol.denvol import denvol
-
-
-def download_test_data(osf, outpath):
-    """
-    Downloads tar.gz data stored at `osf` and unpacks into `outpath`
-
-    Parameters
-    ----------
-    osf : str
-        URL to OSF file that contains data to be downloaded
-    outpath : str
-        Path to directory where OSF data should be extracted
-    """
-
-    req = requests.get(osf)
-    req.raise_for_status()
-    t = tarfile.open(fileobj=GzipFile(fileobj=BytesIO(req.content)))
-    os.makedirs(outpath, exist_ok=True)
-    t.extractall(outpath)
 
 
 def test_integration(nilearn_data):
 
     # Obtain test path
     test_path, _ = split(nilearn_data.func[0])
+    out_path = test_path
 
-    # Create output path
-    out_path = join(test_path, "out")
+    data = new_img_like(nilearn_data.func[0], nib.load(nilearn_data.func[0]).get_fdata()[:20, :20, :20, :20])
 
-    download_test_data('https://osf.io/9c42e/download',
-                       os.path.dirname(out_path))
-
-    denvol(input_file='p06.SBJ01_S09_Task11_e1.sm.nii.gz', in_dir=test_path, out_dir=out_path, n_bins=10)
+    denvol(input_file=data, in_dir=test_path, out_dir=out_path, n_bins=10)
 
     assert os.path.isfile(join(out_path, 'density_volume.nii'))

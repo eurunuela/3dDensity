@@ -88,7 +88,9 @@ def denvol(input_file, input_mask=None, n_bins=50, out_name='density_volume', in
 
     # Save absolute path to input files
     in_dir = os.path.abspath(in_dir)
-    input_file = os.path.join(in_dir, input_file)
+
+    if type(input_file) is str:
+        input_file = os.path.join(in_dir, input_file)
 
     # Compute mask if it does not exist
     if input_mask is None:
