@@ -57,7 +57,7 @@ def _get_parser():
                           help='Input directory containing <input>. Default is current '
                                'directory.',
                           default='.')
-    optional.add_argument('-h', '--history',
+    optional.add_argument('-history', '--history',
                           dest='history',
                           action='store_true',
                           help='Update the file history to contain the denvol command.',
