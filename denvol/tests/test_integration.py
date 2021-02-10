@@ -37,8 +37,6 @@ def test_integration(nilearn_data):
     download_test_data('https://osf.io/9c42e/download',
                        os.path.dirname(out_path))
 
-    breakpoint()
-
     denvol(input_file='p06.SBJ01_S09_Task11_e1.sm.nii.gz', in_dir=test_path, out_dir=out_path, n_bins=10)
 
     assert os.path.isfile(join(out_path, 'density_volume.nii'))
