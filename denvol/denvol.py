@@ -16,9 +16,10 @@ from denvol.cli.run import _get_parser
 
 LGR = logging.getLogger(__name__)
 
+
 def denvol(input_file, input_mask=None, n_bins=50, out_name='density_volume', in_dir=',',
            out_dir='.', history=False, debug=False, quiet=False):
-    """Main workflow of denvol.
+    """Run main workflow of denvol.
 
     Parameters
     ----------
