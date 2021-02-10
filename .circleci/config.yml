@@ -1,0 +1,150 @@
+# Python CircleCI 2.1 configuration file
+#
+#
+#
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.5
+jobs:
+
+  makeenv_37:
+    docker:
+      - image: continuumio/miniconda3
+    working_directory: /tmp/src/denvol
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+              - src/denvol
+      - restore_cache:
+          key: conda-py37-v1-{{ checksum "setup.cfg" }}
+      - run:
+          name: Generate environment
+          command: |
+            if [[ -e /opt/conda/envs/py36_env ]]; then
+              echo "Restoring environment from cache"
+                source activate denvol_py37
+            else
+              conda create -yq -n denvol_py37 python=3.7
+              source activate denvol_py37
+              pip install -e ".[test,doc]"
+            fi
+      - save_cache:
+          key: conda-py37-v1-{{ checksum "setup.cfg" }}
+          paths:
+              - /opt/conda/envs/denvol_py37
+
+
+  integrationtest_36:
+    docker:
+      - image: continuumio/miniconda3
+    working_directory: /tmp/src/denvol
+    steps:
+      - checkout
+      - restore_cache:
+          key: conda-py36-v1-{{ checksum "setup.cfg" }}
+      - run:
+          name: Generate environment
+          command: |
+            if [ ! -d /opt/conda/envs/denvol_py36 ]; then
+              conda create -yq -n denvol_py36 python=3.6
+              source activate denvol_py36
+              pip install -e ".[test]"
+            fi
+      - run:
+          name: Run integration tests
+          no_output_timeout: 10m
+          command: |
+            source activate denvol_py36
+            pytest --log-cli-level=INFO --cov-append --cov-report term-missing --cov=denvol -k test_integration denvol/tests/test_integration.py
+            mkdir /tmp/src/coverage
+            mv /tmp/src/denvol/.coverage /tmp/src/coverage/.coverage.integration36
+      - store_artifacts:
+          path: /tmp/data
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+              - src/coverage/.coverage.integration36
+
+  integrationtest_37:
+    docker:
+      - image: continuumio/miniconda3
+    working_directory: /tmp/src/denvol
+    steps:
+      - checkout
+      - restore_cache:
+          key: conda-py37-v1-{{ checksum "setup.cfg" }}
+      - run:
+          name: Run integration tests
+          no_output_timeout: 10m
+          command: |
+            apt-get install -yqq make
+            source activate denvol_py37  # depends on makeenv_37
+            pytest --log-cli-level=INFO --cov-append --cov-report term-missing --cov=denvol -k test_integration denvol/tests/test_integration.py
+            mkdir /tmp/src/coverage
+            mv /tmp/src/denvol/.coverage /tmp/src/coverage/.coverage.integration37
+      - store_artifacts:
+          path: /tmp/data
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+              - src/coverage/.coverage.integration37
+
+  style_check:
+    docker:
+      - image: continuumio/miniconda3
+    working_directory: /tmp/src/denvol
+    steps:
+      - checkout
+      - restore_cache:
+          key: conda-py37-v1-{{ checksum "setup.cfg" }}
+      - run:
+          name: Style check
+          command: |
+            apt-get install -yqq make
+            source activate denvol_py37  # depends on makeenv37
+            make lint
+      - store_artifacts:
+          path: /tmp/data/lint
+
+  merge_coverage:
+    working_directory: /tmp/src/denvol
+    docker:
+      - image: continuumio/miniconda3
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - checkout
+      - restore_cache:
+          key: conda-py37-v1-{{ checksum "setup.cfg" }}
+      - run:
+          name: Merge coverage files
+          command: |
+            apt-get install -yqq curl
+            source activate denvol_py37  # depends on makeenv37
+            cd /tmp/src/coverage/
+            coverage combine
+            coverage xml
+      - store_artifacts:
+          path: /tmp/src/coverage
+      - codecov/upload:
+          file: /tmp/src/coverage/coverage.xml
+
+workflows:
+  version: 2.1
+  build_test:
+    jobs:
+      - makeenv_37
+      - integrationtest_36
+      - integrationtest_37:
+          requires:
+            - makeenv_37
+      - style_check:
+          requires:
+            - makeenv_37
+      - merge_coverage:
+          requires:
+            - integrationtest_36
+            - integrationtest_37
+            - style_check
