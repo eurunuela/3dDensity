@@ -11,6 +11,6 @@ def test_denvol(nilearn_data):
     # Create output path
     out_path = join(test_path, "out")
 
-    denvol(input_file=nilearn_data.func[0])
+    denvol(input_file=nilearn_data.func[0], in_dir=test_path, out_dir=out_path)
 
     breakpoint()
