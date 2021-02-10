@@ -99,7 +99,7 @@ def denvol(input_file, input_mask=None, n_bins=50, out_name='density_volume', in
     # Read data
     data_masked = masking.apply_mask(input_file, input_mask)
     nvoxels = data_masked.shape[1]
-    LGR.info(f'{nvoxels} found in the volume.')
+    LGR.info(f'{nvoxels} voxels found in the volume.')
 
     # Calculate density for each voxel
     LGR.info('Calculating density...')
