@@ -75,7 +75,7 @@ def denvol(input_file, input_mask, n_bins='50', out_name='density_volume', in_di
     LGR.info(f'{nvoxels} found in the volume.')
 
     # Calculate density for each voxel
-    LGR.info('Starting density calculation...')
+    LGR.info('Calculating density...')
     kde = np.zeros((n_bins, data_masked.shape[1]))
     for voxidx in tqdm(range(nvoxels)):
         hist = plt.hist(np.squeeze(data_masked[:, voxidx]), bins=n_bins)
