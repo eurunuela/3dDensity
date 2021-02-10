@@ -102,9 +102,8 @@ jobs:
       - run:
           name: Style check
           command: |
-            apt-get install -yqq make
             source activate denvol_py37  # depends on makeenv37
-            make lint
+            flake8 denvol
       - store_artifacts:
           path: /tmp/data/lint
 
