@@ -18,7 +18,7 @@ LGR = logging.getLogger(__name__)
 
 
 def Density3D(input_file, input_mask=None, n_bins=50, out_name='density_volume', in_dir=',',
-           out_dir='.', history=False, debug=False, quiet=False):
+              out_dir='.', history=False, debug=False, quiet=False):
     """Run main workflow of Density3D.
 
     Parameters
