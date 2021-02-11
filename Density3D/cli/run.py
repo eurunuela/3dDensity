@@ -10,23 +10,23 @@ from Density3D import __version__
 
 
 def two_floats(value):
-     """Convert string into float.
+    """Convert string into float.
 
-     Parameters
-     ----------
-     value : str
-          String containing two floats.
+    Parameters
+    ----------
+    value : str
+        String containing two floats.
 
-     Returns
-     -------
-     Numpy array
-          Numpy array containign two floats.
+    Returns
+    -------
+    Numpy array
+        Numpy array containign two floats.
 
-     Raises
-     ------
-     argparse.ArgumentError
-          Raised when more than 2 floats are given.
-     """
+    Raises
+    ------
+    argparse.ArgumentError
+        Raised when more than 2 floats are given.
+    """
     values = value.split()
     if len(values) != 2:
         raise argparse.ArgumentError
