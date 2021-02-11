@@ -29,15 +29,14 @@ Finally, make sure the installation was successful by checking the version.
 
 ```
 ❯ Density3D -v
-Density3D 0+untagged.17.gfef5cc4.dirty
+Density3D v0.0.2-beta
 ```
 
 To learn how to use it, make use of the help option:
 
 ```
 ❯ Density3D -h
-usage: Density3D [-h] -i INPUT_FILE [-m INPUT_MASK] [-n N_BINS] [-o OUT_NAME] [-outdir OUT_DIR]
-              [-indir IN_DIR] [-history] [-debug] [-quiet] [-v]
+usage: Density3D [-h] -i INPUT_FILE [-m INPUT_MASK] [-n N_BINS] [-r HIST_RANGE] [-o OUT_NAME] [-outdir OUT_DIR] [-indir IN_DIR] [-history] [-debug] [-quiet] [-v]
 
 Required Argument::
   -i INPUT_FILE, --input INPUT_FILE
@@ -46,17 +45,18 @@ Required Argument::
 optional arguments:
   -h, --help            show this help message and exit
   -m INPUT_MASK, --mask INPUT_MASK
-                        The filename of the mask to apply on <input>. Default is None (nilearn
-                        automatically creates the mask).
+                        The filename of the mask to apply on <input>. Default is None (nilearn automatically creates the mask).
   -n N_BINS, --nbins N_BINS
                         Only output info about the file, don't process. Default is to process.
+  -r HIST_RANGE, --range HIST_RANGE
+                        Range to limit the densities. Default is "-0.01 0.01".
   -o OUT_NAME, --outname OUT_NAME
                         Name for the output file.Default is current density_volume.nii
   -outdir OUT_DIR, --outdir OUT_DIR
                         Output directory containing density volumes. Default is current directory.
   -indir IN_DIR, --indir IN_DIR
                         Input directory containing <input>. Default is current directory.
-  -history, --history   Update the file history to contain the denvol command.
+  -history, --history   Update the file history to contain the Density3D command.
   -debug, --debug       Only print debugging info to log file. Default is False.
   -quiet, --quiet       Only print warnings to log file. Default is False.
   -v, --version         show program's version number and exit
