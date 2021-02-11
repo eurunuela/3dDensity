@@ -10,33 +10,33 @@ Density Volumes for concatenated statistical maps of multi-subject, multi-run or
 First, clone the repository:
 
 ```
-git clone https://github.com/eurunuela/denvol.git
+git clone https://github.com/eurunuela/3dDensity.git
 ```
 
 Then, move into the cloned repository:
 
 ```
-cd denvol
+cd 3dDensity
 ```
 
 Once inside the directory, install the package:
 
 ```
-pip install denvol
+pip install 3dDensity
 ```
 
 Finally, make sure the installation was successful by checking the version.
 
 ```
-❯ denvol -v
-denvol 0+untagged.17.gfef5cc4.dirty
+❯ 3dDensity -v
+3dDensity 0+untagged.17.gfef5cc4.dirty
 ```
 
 To learn how to use it, make use of the help option:
 
 ```
-❯ denvol -h
-usage: denvol [-h] -i INPUT_FILE [-m INPUT_MASK] [-n N_BINS] [-o OUT_NAME] [-outdir OUT_DIR]
+❯ 3dDensity -h
+usage: 3dDensity [-h] -i INPUT_FILE [-m INPUT_MASK] [-n N_BINS] [-o OUT_NAME] [-outdir OUT_DIR]
               [-indir IN_DIR] [-history] [-debug] [-quiet] [-v]
 
 Required Argument::
