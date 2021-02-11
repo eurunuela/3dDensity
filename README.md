@@ -22,7 +22,7 @@ cd Density3D
 Once inside the directory, install the package:
 
 ```
-pip install Density3D
+pip install .
 ```
 
 Finally, make sure the installation was successful by checking the version.
