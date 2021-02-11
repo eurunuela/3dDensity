@@ -1,9 +1,9 @@
-# DenVol
+# 3dDensity
 
-[![CircleCI](https://circleci.com/gh/eurunuela/denvol.svg?style=shield)](https://circleci.com/gh/eurunuela/denvol)
-[![codecov](https://codecov.io/gh/eurunuela/denvol/branch/main/graph/badge.svg?token=o4QhYt5i9u)](https://codecov.io/gh/eurunuela/denvol)
+[![CircleCI](https://circleci.com/gh/eurunuela/3dDensity.svg?style=shield)](https://circleci.com/gh/eurunuela/3dDensity)
+[![codecov](https://codecov.io/gh/eurunuela/3dDensity/branch/main/graph/badge.svg?token=o4QhYt5i9u)](https://codecov.io/gh/eurunuela/3dDensity)
 
-DENsity VOLumes for concatenated statistic maps of multi-subject, multi-run or surrogate fMRI datasets.
+Density Volumes for concatenated statistical maps of multi-subject, multi-run or surrogate fMRI datasets.
 
 ## How to install
 
