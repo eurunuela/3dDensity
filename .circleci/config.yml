@@ -10,13 +10,13 @@ jobs:
   makeenv_37:
     docker:
       - image: continuumio/miniconda3
-    working_directory: /tmp/src/denvol
+    working_directory: /tmp/src/3dDensity
     steps:
       - checkout
       - persist_to_workspace:
           root: /tmp
           paths:
-              - src/denvol
+              - src/3dDensity
       - restore_cache:
           key: conda-py37-v1-{{ checksum "setup.cfg" }}
       - run:
@@ -24,22 +24,22 @@ jobs:
           command: |
             if [[ -e /opt/conda/envs/py36_env ]]; then
               echo "Restoring environment from cache"
-                source activate denvol_py37
+                source activate 3dDensity_py37
             else
-              conda create -yq -n denvol_py37 python=3.7
-              source activate denvol_py37
+              conda create -yq -n 3dDensity_py37 python=3.7
+              source activate 3dDensity_py37
               pip install -e ".[test,doc]"
             fi
       - save_cache:
           key: conda-py37-v1-{{ checksum "setup.cfg" }}
           paths:
-              - /opt/conda/envs/denvol_py37
+              - /opt/conda/envs/3dDensity_py37
 
 
   integrationtest_36:
     docker:
       - image: continuumio/miniconda3
-    working_directory: /tmp/src/denvol
+    working_directory: /tmp/src/3dDensity
     steps:
       - checkout
       - restore_cache:
@@ -47,19 +47,19 @@ jobs:
       - run:
           name: Generate environment
           command: |
-            if [ ! -d /opt/conda/envs/denvol_py36 ]; then
-              conda create -yq -n denvol_py36 python=3.6
-              source activate denvol_py36
+            if [ ! -d /opt/conda/envs/3dDensity_py36 ]; then
+              conda create -yq -n 3dDensity_py36 python=3.6
+              source activate 3dDensity_py36
               pip install -e ".[test]"
             fi
       - run:
           name: Run integration tests
           no_output_timeout: 10m
           command: |
-            source activate denvol_py36
-            pytest --log-cli-level=INFO --cov-append --cov-report term-missing --cov=denvol -k test_integration denvol/tests/test_integration.py
+            source activate 3dDensity_py36
+            pytest --log-cli-level=INFO --cov-append --cov-report term-missing --cov=3dDensity -k test_integration 3dDensity/tests/test_integration.py
             mkdir /tmp/src/coverage
-            mv /tmp/src/denvol/.coverage /tmp/src/coverage/.coverage.integration36
+            mv /tmp/src/3dDensity/.coverage /tmp/src/coverage/.coverage.integration36
       - store_artifacts:
           path: /tmp/data
       - persist_to_workspace:
@@ -70,7 +70,7 @@ jobs:
   integrationtest_37:
     docker:
       - image: continuumio/miniconda3
-    working_directory: /tmp/src/denvol
+    working_directory: /tmp/src/3dDensity
     steps:
       - checkout
       - restore_cache:
@@ -80,10 +80,10 @@ jobs:
           no_output_timeout: 10m
           command: |
             apt-get install -yqq make
-            source activate denvol_py37  # depends on makeenv_37
-            pytest --log-cli-level=INFO --cov-append --cov-report term-missing --cov=denvol -k test_integration denvol/tests/test_integration.py
+            source activate 3dDensity_py37  # depends on makeenv_37
+            pytest --log-cli-level=INFO --cov-append --cov-report term-missing --cov=3dDensity -k test_integration 3dDensity/tests/test_integration.py
             mkdir /tmp/src/coverage
-            mv /tmp/src/denvol/.coverage /tmp/src/coverage/.coverage.integration37
+            mv /tmp/src/3dDensity/.coverage /tmp/src/coverage/.coverage.integration37
       - store_artifacts:
           path: /tmp/data
       - persist_to_workspace:
@@ -94,7 +94,7 @@ jobs:
   style_check:
     docker:
       - image: continuumio/miniconda3
-    working_directory: /tmp/src/denvol
+    working_directory: /tmp/src/3dDensity
     steps:
       - checkout
       - restore_cache:
@@ -102,13 +102,13 @@ jobs:
       - run:
           name: Style check
           command: |
-            source activate denvol_py37  # depends on makeenv37
-            flake8 denvol
+            source activate 3dDensity_py37  # depends on makeenv37
+            flake8 3dDensity
       - store_artifacts:
           path: /tmp/data/lint
 
   merge_coverage:
-    working_directory: /tmp/src/denvol
+    working_directory: /tmp/src/3dDensity
     docker:
       - image: continuumio/miniconda3
     steps:
@@ -121,7 +121,7 @@ jobs:
           name: Merge coverage files
           command: |
             apt-get install -yqq curl
-            source activate denvol_py37  # depends on makeenv37
+            source activate 3dDensity_py37  # depends on makeenv37
             cd /tmp/src/coverage/
             coverage combine
             coverage xml
