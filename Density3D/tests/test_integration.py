@@ -13,6 +13,6 @@ def test_integration(nilearn_data):
 
     data = new_img_like(nilearn_data.func[0], nib.load(nilearn_data.func[0]).get_fdata()[:20, :20, :20, :20])
 
-    Density3D(input_file=data, in_dir=test_path, out_dir=out_path, n_bins=10)
+    Density3D(input_file=data, in_dir=test_path, out_dir=out_path, n_bins=10, hist_range=[-0.05, 0.05])
 
     assert os.path.isfile(join(out_path, 'density_volume.nii'))

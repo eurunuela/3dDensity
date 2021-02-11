@@ -17,8 +17,8 @@ from Density3D.cli.run import _get_parser
 LGR = logging.getLogger(__name__)
 
 
-def Density3D(input_file, input_mask=None, n_bins=50, out_name='density_volume', in_dir=',',
-              out_dir='.', history=False, debug=False, quiet=False):
+def Density3D(input_file, input_mask=None, n_bins=50, hist_range=[0, 1], out_name='density_volume',
+              in_dir=',', out_dir='.', history=False, debug=False, quiet=False):
     """Run main workflow of Density3D.
 
     Parameters
@@ -108,6 +108,7 @@ def Density3D(input_file, input_mask=None, n_bins=50, out_name='density_volume',
     kde = np.zeros((n_bins, data_masked.shape[1]))
     for voxidx in tqdm(range(nvoxels)):
         hist = plt.hist(np.squeeze(data_masked[:, voxidx]), bins=n_bins)
+        breakpoint()
         density, _, _ = hist
         kde[:, voxidx] = np.squeeze(density)
         plt.clf()

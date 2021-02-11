@@ -40,6 +40,12 @@ def _get_parser():
                           help='Only output info about the file, don\'t process. '
                                'Default is to process.',
                           default=50)
+    optional.add_argument('-r', '--range',
+                          dest='hist_range',
+                          type=list,
+                          help='Range to limit the densities. '
+                               'Default is [0, 1].',
+                          default=50)
     optional.add_argument('-o', '--outname',
                           dest='out_name',
                           type=str,
