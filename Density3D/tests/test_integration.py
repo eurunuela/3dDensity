@@ -1,7 +1,9 @@
+import os
 from os.path import join, split
+
 import nibabel as nib
 from nilearn.image import new_img_like
-import os
+
 from Density3D.Density3D import Density3D
 
 

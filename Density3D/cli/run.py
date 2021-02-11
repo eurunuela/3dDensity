@@ -3,6 +3,7 @@
 
 
 import argparse
+
 import numpy as np
 
 from Density3D import __version__

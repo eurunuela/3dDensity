@@ -2,12 +2,12 @@
 import datetime
 import getpass
 import logging
-import matplotlib.pyplot as plt
-import numpy as np
 import os
 import socket
 import sys
 
+import matplotlib.pyplot as plt
+import numpy as np
 from nilearn import masking
 from tqdm import tqdm
 
