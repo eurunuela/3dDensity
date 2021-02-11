@@ -15,7 +15,7 @@ coverage:
         threshold: 0
 
 ignore:
-  - "3dDensity/tests/"
-  - "3dDensity/_version.py"
-  - "3dDensity/__init__.py"
-  - "3dDensity/cli/"
+  - "Density3D/tests/"
+  - "Density3D/_version.py"
+  - "Density3D/__init__.py"
+  - "Density3D/cli/"
