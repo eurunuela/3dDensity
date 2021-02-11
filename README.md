@@ -68,3 +68,4 @@ optional arguments:
 - nilearn
 - numpy
 - tqdm
+- AFNI (if you plan to use the `-history` argument
