@@ -112,10 +112,19 @@ def Density3D(input_file, input_mask=None, n_bins=50, hist_range=[-0.01, 0.01], 
         density, values, _ = hist
 
         # Find values above and below range, and sum
-        below_idx = np.max(np.where(values <= hist_range[1])[0])
-        above_idx = np.min(np.where(values >= hist_range[1])[0])
-        below_quantity = np.sum(density[:below_idx])
-        above_quantity = np.sum(density[above_idx:])
+        below = np.where(values <= hist_range[0])[0]
+        if below.size != 0:
+            below_idx = np.max(below)
+            below_quantity = np.sum(density[:below_idx])
+        else:
+            below_quantity = 0
+
+        above = np.where(values >= hist_range[1])[0]
+        if above.size != 0:
+            above_idx = np.min(above)
+            above_quantity = np.sum(density[above_idx:])
+        else:
+            above_quantity = 0
 
         # Calculate density inside range
         hist = plt.hist(np.squeeze(data_masked[:, voxidx]), bins=n_bins)
