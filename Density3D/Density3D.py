@@ -17,7 +17,7 @@ from Density3D.cli.run import _get_parser
 LGR = logging.getLogger(__name__)
 
 
-def Density3D(input_file, input_mask=None, n_bins=50, hist_range=[0, 1], out_name='density_volume',
+def Density3D(input_file, input_mask=None, n_bins=50, hist_range=[-0.01, 0.01], out_name='density_volume',
               in_dir=',', out_dir='.', history=False, debug=False, quiet=False):
     """Run main workflow of Density3D.
 
@@ -107,9 +107,25 @@ def Density3D(input_file, input_mask=None, n_bins=50, hist_range=[0, 1], out_nam
     LGR.info('Calculating density...')
     kde = np.zeros((n_bins, data_masked.shape[1]))
     for voxidx in tqdm(range(nvoxels)):
+        # Calculate overall density
         hist = plt.hist(np.squeeze(data_masked[:, voxidx]), bins=n_bins)
-        breakpoint()
-        density, _, _ = hist
+        density, values, _ = hist
+
+        # Find values above and below range, and sum
+        below_idx = np.max(np.where(values <= hist_range[1])[0])
+        above_idx = np.min(np.where(values >= hist_range[1])[0])
+        below_quantity = np.sum(density[:below_idx])
+        above_quantity = np.sum(density[above_idx:])
+
+        # Calculate density inside range
+        hist = plt.hist(np.squeeze(data_masked[:, voxidx]), bins=n_bins)
+        density, values, _ = hist
+
+        # Add values outside of range
+        density[0] = density[0] + below_quantity
+        density[-1] = density[-1] + above_quantity
+
+        # Save density of voxel
         kde[:, voxidx] = np.squeeze(density)
         plt.clf()
 

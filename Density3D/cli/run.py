@@ -3,8 +3,18 @@
 
 
 import argparse
+import numpy as np
 
 from Density3D import __version__
+
+
+def two_floats(value):
+    values = value.split()
+    if len(values) != 2:
+        raise argparse.ArgumentError
+    values = map(float, values)
+    values = np.fromiter(values, dtype=np.float)
+    return values
 
 
 def _get_parser():
@@ -42,10 +52,10 @@ def _get_parser():
                           default=50)
     optional.add_argument('-r', '--range',
                           dest='hist_range',
-                          type=list,
+                          type=two_floats,
                           help='Range to limit the densities. '
-                               'Default is [0, 1].',
-                          default=50)
+                               'Default is "-0.01 0.01".',
+                          default=[-0.01, 0.01])
     optional.add_argument('-o', '--outname',
                           dest='out_name',
                           type=str,
